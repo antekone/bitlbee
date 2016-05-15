@@ -41,6 +41,8 @@ GSList *connections;
 #ifdef WITH_PLUGINS
 gboolean load_plugin(char *path)
 {
+	guint abi;
+	guint (*abi_function) (void);
 	void (*init_function) (void);
 
 	GModule *mod = g_module_open(path, G_MODULE_BIND_LAZY);
@@ -50,8 +52,25 @@ gboolean load_plugin(char *path)
 		return FALSE;
 	}
 
+	if (!g_module_symbol(mod, "init_plugin_abi", (gpointer *) &abi_function)) {
+		log_message(LOGLVL_WARNING, "Can't find function `init_plugin_abi' in `%s'\n", path);
+		g_module_close(mod);
+		return FALSE;
+	}
+
+	abi = abi_function();
+
+	if (abi != BITLBEE_ABI_VERSION_CODE) {
+		log_message(LOGLVL_WARNING,
+		            "`%s' uses ABI %u but %u is required\n",
+		            path, abi, BITLBEE_ABI_VERSION_CODE);
+		g_module_close(mod);
+		return FALSE;
+	}
+
 	if (!g_module_symbol(mod, "init_plugin", (gpointer *) &init_function)) {
 		log_message(LOGLVL_WARNING, "Can't find function `init_plugin' in `%s'\n", path);
+		g_module_close(mod);
 		return FALSE;
 	}
 

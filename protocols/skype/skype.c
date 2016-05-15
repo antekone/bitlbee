@@ -1762,3 +1762,8 @@ void init_plugin(void)
 #endif
 	register_protocol(ret);
 }
+
+guint init_plugin_abi(void)
+{
+	return BITLBEE_ABI_VERSION_CODE;
+}

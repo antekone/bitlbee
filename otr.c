@@ -267,6 +267,13 @@ void init_plugin(void)
 	register_irc_plugin(&otr_plugin);
 }
 
+#ifndef OTR_BI
+guint init_plugin_abi(void)
+{
+	return BITLBEE_ABI_VERSION_CODE;
+}
+#endif
+
 gboolean otr_irc_new(irc_t *irc)
 {
 	set_t *s;
