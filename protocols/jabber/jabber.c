@@ -486,6 +486,7 @@ static void jabber_get_info(struct im_connection *ic, char *who)
 			imcb_log(ic, "Away state: %s", bud->away_state->full_name);
 		}
 		imcb_log(ic, "Status message: %s", bud->away_message ? bud->away_message : "(none)");
+		imcb_log(ic, "Your account: %s", ic->acc->user);
 
 		bud = bud->next;
 	}
