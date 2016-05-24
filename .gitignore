@@ -31,3 +31,6 @@ cov-int
 .gitignore
 bitlbee.service
 bitlbee@.service
+G*
+make.sh
+*.core
