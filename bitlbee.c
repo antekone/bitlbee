@@ -239,7 +239,7 @@ gboolean bitlbee_io_current_client_write(gpointer data, gint fd, b_input_conditi
 	st = write(irc->fd, irc->sendbuffer, size);
 
 	if (st == 0 || (st < 0 && !sockerr_again())) {
-		irc_abort(irc, 1, "Write error: %s", strerror(errno));
+		irc_abort(irc, 1, "Write error: %s (when trying to write to an opened socket)", strerror(errno));
 		return FALSE;
 	} else if (st < 0) { /* && sockerr_again() */
 		return TRUE;

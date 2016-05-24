@@ -445,6 +445,7 @@ static storage_status_t xml_save(irc_t *irc, int overwrite)
 
 error:
 	irc_rootmsg(irc, "Write error: %s", g_strerror(errno));
+	irc_rootmsg(irc, "When trying to write to file: %s", path);
 	ret = STORAGE_OTHER_ERROR;
 
 finish:
